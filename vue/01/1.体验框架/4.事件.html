@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="vue.js"></script>
+</head>
+<body>
+    
+    <div id="app">
+        <!-- {{a}} -->
+        <!-- <button v-on:click="test()">按钮</button> -->
+        <ul>
+            <li v-for="(item, index) in arr">
+                {{item}} <button v-on:click="del($event, item, index)">删除此项</button>
+            </li>
+        </ul>
+
+        <div class="box" v-if="isShow">
+            box
+        </div>
+        <button v-on:click="isShow = !isShow">显示隐藏</button>
+    </div>
+    <script>
+       const vm = new Vue({
+            el: '#app', 
+            data: { // data选项是给模板提供数据的作用
+                a: 100,
+                isShow: true,
+                arr: [
+                    '选项1',
+                    '选项2',
+                    '选项3',
+                    '选项4',
+                    '选项5'
+                ]
+            },
+            // vue要调用的方法必须在实例或组件 的methods选项里
+            methods: { // methods选项是给模板提供方法的作用
+                del(ev, item, index) {
+                    // console.log(item, index)
+                    // this.arr.splice(index, 1)
+                    // console.log(item)
+                    // 阻止事件冒泡
+                    // ev.stopPropagation()
+                },
+                test(e) {
+                    console.log(this.test1())
+                },
+                test1() {
+                    console.log('test1')
+                }
+            }
+        })
+        console.log(vm)
+    </script>
+</body>
+</html>

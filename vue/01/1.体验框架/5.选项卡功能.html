@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="vue.js"></script>
+    <style>
+        .tab{
+            width: 500px;
+            height: 350px;
+            border: 1px solid #000;
+        }
+
+        .tab header {
+            height: 35px;
+            display: flex;
+            align-items: center;
+            border-bottom: 1px solid #000;
+        }
+
+        .tab header .item {
+            border-right: 1px solid #000;
+            height: 35px;
+            line-height: 35px;
+            padding: 0 20px;
+        }
+
+        .tab header .item.active {
+            background: #ccc;
+        }
+    </style>
+</head>
+<body>
+    
+    <div id="app">
+       <div class="tab">
+           <header>
+               <div class="item" 
+                    v-bind:class="selectIndex === index ? 'active' : ''"
+                    v-on:click="selectIndex = index" 
+                    v-for="(item, index) in tabMenu">
+                   {{item.title}}
+               </div>
+           </header>
+           <main>
+               <div class="item" v-if="selectIndex === index" v-for="(item, index) in tabMenu">
+                   {{item.content}}
+               </div>
+           </main>
+       </div>
+    </div>
+    <script>
+       const vm = new Vue({
+            el: '#app', 
+            data: {
+                selectIndex: 0,
+                tabMenu: [
+                    {
+                        title: "选项1",
+                        content: '选项1的内容'
+                    },
+                    {
+                        title: "选项2",
+                        content: '选项2的内容'
+                    },
+                    {
+                        title: "选项3",
+                        content: '选项3的内容'
+                    }
+                ]
+            },
+            methods: {
+                click(i) {
+                    console.log(i)
+                }
+            }
+        })
+    </script>
+</body>
+</html>

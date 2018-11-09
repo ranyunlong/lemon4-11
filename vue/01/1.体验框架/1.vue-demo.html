@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="vue.js"></script>
+    <style>
+        .box1{
+            background: red;
+        }
+        .box2{ 
+            background: blue;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <!-- <h1>{{title}}</h1>
+        <ul>
+            <li v-for="item in arr">{{item}}</li>
+        </ul>
+        {{input}}
+        <br />
+        <input type="text" v-model="input">
+        <br />
+        <input type="text" v-model="input">
+        <br />
+        <input type="text" v-bind:value="input" >
+
+        <div v-bind:class="input">12</div>
+        <article v-html="content"></article> -->
+
+        <ul>
+            <li v-for="(item, index) in menu">
+                {{item.title}}
+                <ul>
+                    <li v-for="(child, childIndex) in item.children">
+                        {{child.title}}
+                        <ul>
+                            <li v-for="(childchild, childchildIndex) in child.children">
+                                {{childchild.title}}
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+
+    <script>
+       const vm = new Vue({
+            el: '#app',
+            data: {
+                menu: [
+                    {
+                        title: '菜单项目1',
+                        children: [
+                            {
+                                title:"菜单项目1的子菜单1",
+                                children: [
+                                    {
+                                        title:"菜单项目1的子菜单1的子菜单1"
+                                    },
+                                    {
+                                        title:"菜单项目1的子菜单1的子菜单2"
+                                    }
+                                ]
+                            },
+                            {
+                                title:"菜单项目1的子菜单2"
+                            }
+                        ]
+                    },
+                    {
+                        title: '菜单项目2',
+                        children: [
+                            {
+                                title:"菜单项目2的子菜单1"
+                            },
+                            {
+                                title:"菜单项目2的子菜单2"
+                            }
+                        ]
+                    }
+                ],
+                input: '你好vue1',
+                title: '标题',
+                content: '<h1>你好标题</h1>',
+                user: {
+                    name: '张三',
+                    age: 20,
+                    six: '男'
+                },
+                arr: [
+                    '菜单1',
+                    '登录',
+                    '注册',
+                    '注册',
+                    '注册'
+                ]
+            }
+        })            
+    </script>
+</body>
+</html>

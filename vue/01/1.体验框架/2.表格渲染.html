@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="vue.js"></script>
+    <style>
+        .box1{
+            background: red;
+        }
+        .box2{ 
+            background: blue;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <table border="1">
+            <thead>
+                <th v-for="item in tableHeader">{{item}}</th>
+            </thead>
+            <tbody>
+                <tr v-for="item in tableTbody">
+                    <td v-for="(value, key) in item">{{value}}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+       const vm = new Vue({
+            el: '#app',
+            data: {
+                tableHeader: [
+                    'name',
+                    'age',
+                    'sex'
+                ],
+                tableTbody: [
+                    {
+                        name: "张三",
+                        age: 20,
+                        sex: '男'
+                    },
+                    {
+                        name: "张三",
+                        age: 20,
+                        sex: '男'
+                    },
+                    {
+                        name: "张三",
+                        age: 20,
+                        sex: '男'
+                    }
+                ]
+            }
+        })            
+    </script>
+</body>
+</html>
