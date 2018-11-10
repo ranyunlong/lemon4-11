@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="https://cdn.bootcss.com/vue/2.5.17/vue.js"></script>
+    <style>
+        body{
+            margin: 0;  
+        }
+        #app {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            color: #fff;
+        }
+    </style>
+</head>
+<body>
+    <div id="app" v-bind:style="{
+        // background: 'rgba(0,0,0,'+ a / 100 +')'
+        background: color
+    }">
+        <!-- <input type="range" v-model="a"> -->
+        {{color}}
+        <input type="color" v-model="color">
+
+    </div>    
+    <script>
+        new Vue({
+            el: '#app',
+            data: {
+                a: 0,
+                color: 'red'
+            },
+            methods: {
+            }
+        })
+    </script>
+</body>
+</html>

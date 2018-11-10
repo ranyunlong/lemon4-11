@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="https://cdn.bootcss.com/vue/2.5.17/vue.js"></script>
+    <style>
+        .box {
+            width: 300px;
+            height: 300px;
+            background: orangered;
+            position: absolute;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <div 
+            class="box" 
+            v-on:mousedown="mousedown"
+            v-bind:style="{
+                top,
+                left
+            }">
+        </div>
+    </div>
+    
+    <script>
+        new Vue({
+            el: '#app',
+            data: {
+                x: 0,
+                y: 0
+            },
+            computed: { // 自动计算
+                top() {
+                    return this.y + 'px'
+                },
+                left() {
+                    return this.x + 'px'
+                }
+            },
+            methods: {
+                mousedown() {
+
+                    const handlerMove = (e) => {
+                        // console.log(e)
+                        const x = e.clientX
+                        const y = e.clientY
+                        this.x = x
+                        this.y = y
+                        // console.log(this.x, this.y)
+                    }
+                    function handlerUp() {
+                        document.removeEventListener('mousemove', handlerMove)
+                        document.removeEventListener('mouseup', handlerUp)
+                    }
+                    document.addEventListener('mousemove',handlerMove)
+                    document.addEventListener('mouseup', handlerUp)
+                }
+            }
+        })
+    </script>
+</body>
+</html>

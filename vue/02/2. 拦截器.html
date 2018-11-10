@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <div id="box"></div>
+
+    <script>
+        let test = ''
+        const obj = {
+            // 拦截获取属性的
+            get test() {
+                console.log('有人来获取变量了')
+                return test
+            },
+            // 拦截设置属性的
+            set test(val) {
+                test = val
+                // console.log('有人来改变变量了')
+                document.getElementById('box').innerText = val
+            }
+        }
+
+        // 拦截器 只是用来拦截用户行为的
+
+        console.log(obj)
+    </script>
+</body>
+</html>

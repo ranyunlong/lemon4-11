@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="https://cdn.bootcss.com/vue/2.5.17/vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        <!-- {{sex}}
+        <br>
+        男<input type="radio" value="男" v-model="sex">
+        女<input type="radio" value="女" v-model="sex">
+        保密<input type="radio" value="保密" v-model="sex"> -->
+
+        <!-- {{sex}}
+        <input type="checkbox" v-model="sex">
+        <input type="checkbox" v-model="sex"> -->
+        {{list}}
+        <input type="text" v-model="search">
+        <ul>
+            <li v-for="(item, index) in arr">
+                <input type="checkbox" v-model="item.selected"> 
+                {{item.name}}
+            </li>
+        </ul>
+        <button v-on:click="selectAll">全选</button>
+        <button v-on:click="cancelSelectAll">取消全选</button>
+        <button v-on:click="deletAll">批量删除</button>
+    </div>
+    <script>
+        new Vue({
+            el: '#app',
+            data: {
+                search: '',
+                arr: [
+                   {
+                       selected: false,
+                       name: '张安'
+                   },
+                   {
+                       selected: false,
+                       name: '老李'
+                   },
+                   {
+                       selected: false,
+                       name: '小明'
+                   }
+               ]
+            },
+            computed: {
+                data() {
+                    return this.arr.filter((k) => {
+                        return k.name.indexOf(this.search) !== -1
+                    })
+                },
+                list() {
+                    return [
+                        this.search + '@qq.com',
+                        this.search + '@163.com',
+                    ]
+                }
+            },  
+            methods: {
+                selectAll() {
+                    this.arr.forEach(k => {
+                        k.selected = true
+                    })
+                },
+                cancelSelectAll(){
+                    this.arr.forEach(k => {
+                        k.selected = false
+                    })
+                },
+                deletAll() {
+                    this.arr = this.arr.filter(k => !k.selected)
+                }
+            }
+        })
+    </script>
+</body>
+</html>

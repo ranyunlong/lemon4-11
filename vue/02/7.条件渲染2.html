@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="https://cdn.bootcss.com/vue/2.5.17/vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        <div v-if="select == 1">内容1</div>
+        <div v-else-if="select == 2">内容2</div>
+        <div v-else>内容3</div>
+
+        <select v-model="select">
+            <option value="1">选项1</option>
+            <option value="2">选项2</option>
+            <option value="3">选项3</option>
+        </select>
+    </div>
+    <script>
+        new Vue({
+            el: '#app',
+            data: {
+                select: '1'
+            }
+        })
+    </script>
+</body>
+</html>

@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="https://cdn.bootcss.com/vue/2.5.17/vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        <ul>
+            <li v-for="item in arr">
+                <span>{{item.name}}</span>
+                <span>{{item.content}}</span>
+                <span>{{item.pubtime}}</span>
+            </li>
+        </ul>
+
+        <div>
+            <input type="text" v-model="user">
+        </div>
+        <div>
+            <textarea cols="30" rows="10" v-model="content"></textarea>
+        </div>
+        <div>
+            <button v-on:click="commit">提交</button>
+        </div>
+    </div>    
+    <script>
+        new Vue({
+            el: '#app',
+            data: {
+                user: '',
+                content: '',
+                arr: []
+            },
+            methods: {
+                commit() {
+                    if (this.user && this.content) {
+                        this.arr.push({
+                            name: this.user,
+                            content: this.content,
+                            pubtime: new Date().toLocaleString()
+                        })
+                        this.content = ''
+                    } else {
+                        alert('请输入内容')
+                    }
+                }
+            }
+        })
+    </script>
+</body>
+</html>

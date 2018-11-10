@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="https://cdn.bootcss.com/vue/2.5.17/vue.js"></script>
+    <style>
+    
+        .box {
+            width: 300px;
+            height: 300px;
+            
+            transition: all 1s linear;
+        }
+        .box.boxhide {
+            opacity: 0;
+        }
+        .box.red {
+            background: red;
+        }
+        .box.blue {
+            background: blue;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <div v-bind:class="['box', {
+            boxhide: isHide,
+            red: input == 1,
+            blue: input == 2
+        }]"></div>
+        <input type="text" v-model="input">
+        <button v-on:click="toggle">切换</button>
+    </div>    
+    <script>
+        new Vue({
+            el: '#app',
+            data: {
+                input: '1',
+                isHide: false
+            },
+            methods: {
+                toggle() {
+                    this.isHide = !this.isHide
+                }
+            }
+        })
+
+        const cl = {
+            box: true
+        }
+    </script>
+</body>
+</html>
