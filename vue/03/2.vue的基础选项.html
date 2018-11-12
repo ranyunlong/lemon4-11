@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="https://cdn.bootcss.com/vue/2.5.17/vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        <input type="text" v-model="input">
+    </div>
+    <script>
+        new Vue({
+            el: '#app',
+            data: {
+                input: '1-'
+            },
+            computed: {
+                test() {
+                    return '11'
+                }
+            },
+            watch: { // 是一个侦听选项
+                // 监听当前实例 里的任意属性
+                input(v, ov) {
+                    // 必须是input 发生了改变（值不一样的情况下）才会调用这个函数
+                    // 可以监控当前实例的这个成员发生变化了
+                    // 还可以得到具体变化了什么值
+                    // console.log(v, ov)
+                    // this.input = v.replace(/\s/g, '-')
+                    // this.input = '1-'
+                    // this.input = this.input + 1
+                    this.input = v.replace(/(\s|[\u4e00-\u9fa5])/g, '')
+
+                },
+                test() {
+                    // computed里的成员也可以侦听
+                }
+            }
+        })
+    </script>
+</body>
+</html>

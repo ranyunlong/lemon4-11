@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="https://cdn.bootcss.com/vue/2.5.17/vue.js"></script>
+</head>
+<body>
+    <div id="app">
+    </div>
+    <script>
+        new Vue({
+            el: '#app',
+            template: `<div>
+                <h1>{{title}}</h1>
+            </div>`,
+            data: {
+                title: '这里是vue案例'
+            }
+        })
+
+        // 如果你添加了template 选项 那么 el对应的元素会被替换成template里的东西
+        // template 里只能包含一个元素 可以包含子元素
+    </script>
+</body>
+</html>

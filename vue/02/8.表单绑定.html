@@ -18,17 +18,20 @@
         <!-- {{sex}}
         <input type="checkbox" v-model="sex">
         <input type="checkbox" v-model="sex"> -->
-        {{list}}
+        {{arr}}
         <input type="text" v-model="search">
         <ul>
-            <li v-for="(item, index) in arr">
+            <li v-for="(item, index) in data">
                 <input type="checkbox" v-model="item.selected"> 
                 {{item.name}}
             </li>
         </ul>
         <button v-on:click="selectAll">全选</button>
+        <button v-on:click="reSelect">反选</button>
+        <button v-on:click="selectEven">选择偶数列</button>
         <button v-on:click="cancelSelectAll">取消全选</button>
         <button v-on:click="deletAll">批量删除</button>
+        <button v-on:click="sort">排序</button>
     </div>
     <script>
         new Vue({
@@ -38,32 +41,59 @@
                 arr: [
                    {
                        selected: false,
-                       name: '张安'
+                       name: 'a张安'
                    },
                    {
                        selected: false,
-                       name: '老李'
+                       name: 'b老李'
                    },
                    {
                        selected: false,
-                       name: '小明'
+                       name: 'd小明1'
+                   },
+                   {
+                       selected: false,
+                       name: 'c小明2'
+                   },
+                   {
+                       selected: false,
+                       name: 'e小明34'
+                   },
+                   {
+                       selected: false,
+                       name: 'f小明4'
                    }
                ]
             },
             computed: {
                 data() {
+                    // if (this.search === '') return []
                     return this.arr.filter((k) => {
                         return k.name.indexOf(this.search) !== -1
                     })
-                },
-                list() {
-                    return [
-                        this.search + '@qq.com',
-                        this.search + '@163.com',
-                    ]
                 }
             },  
             methods: {
+                sort() {
+                    this.arr = this.arr.sort(function(a, b) {
+                        return a.name.localeCompare(b.name)
+                    })
+                },
+                selectEven() {
+                    this.arr.forEach((item, index) => {
+                        if (index % 2 === 1) {
+                            item.selected = true
+                        } else {
+                            item.selected = false
+                        }
+                    })
+                },
+                reSelect() {
+                    // console.log(this.arr)
+                    this.arr.forEach((item) => {
+                        item.selected = !item.selected
+                    })
+                },
                 selectAll() {
                     this.arr.forEach(k => {
                         k.selected = true

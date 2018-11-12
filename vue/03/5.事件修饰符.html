@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="https://cdn.bootcss.com/vue/2.5.17/vue.js"></script>
+    <style>
+        .box1 {
+            width: 300px;
+            height: 300px;
+            background: orangered;
+        }
+        .box2 {
+            width: 100px;
+            height: 100px;
+            background: pink;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <div class="box1" @mousedown.right.ctrl.exact="handler($event,'父容器')">
+            <div class="box2" @click.once="handler($event,'子容器')"></div>
+        </div>
+
+        <!-- <input type="text" @keydown.38.40.stop.prevent="enter"> -->
+        <input type="text" @keydown.ctrl.exact="enter">
+    </div>
+    <script>
+        new Vue({
+            el: '#app',
+            methods: {
+                handler(e, str) {
+                    console.log(e.target)
+                    console.log(str)
+                },
+                enter(e) {
+                    console.log(e.keyCode, '按下了enter')
+                }
+            }
+        })
+    </script>
+</body>
+</html>
