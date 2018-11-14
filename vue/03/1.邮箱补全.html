@@ -26,22 +26,39 @@
     <script>
         // v-on: 可以用@符号代替
         // v-bind: 可以用:符号代替
-        new Vue({
+        const vm = new Vue({
             el: '#app',
             data: {
-                selectIndex: 1,
+                selectIndex: -1,
                 inputEmail: '',
                 mailTypes: ['qq.com', '163.com', 'gmail.com']
+            },
+            watch: {
+                selectIndex(val) {
+                    // 对selectIndex 这个变量进行侦听
+                    // 限制它到最后一个结束
+                    if(val > this.emails.length - 1) {
+                        this.selectIndex = this.emails.length - 1
+                    } else if(val < 0) {
+                        this.selectIndex = 0
+                    }
+                }
             },
             methods:{ 
                 down() {
                     console.log('down')
+                    this.selectIndex++
                 },
                 up() {
                     console.log('up')
+                    this.selectIndex--
                 },
                 enter() {
-
+                    const index = this.selectIndex
+                    const email = this.emails[index]
+                    if (email) {
+                        this.inputEmail = email
+                    }
                 },
                 select(a) {
                     // console.log(item)

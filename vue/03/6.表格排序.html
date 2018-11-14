@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="https://cdn.bootcss.com/vue/2.5.17/vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        <table border="1">
+            <thead>
+                <th>姓名
+                    <button @click="sortName">排序 
+                            <span v-if="type1">升序</span>
+                            <span v-else>降序</span> 
+                    </button>
+                </th>
+                <th>
+                    年龄
+                    <button @click="sortAge">排序 
+                            <span v-if="type2">升序</span>
+                            <span v-else>降序</span> 
+                    </button>
+                </th>
+            </thead>
+            <tbody>
+                <tr v-for="item in users">
+                    <td v-for="key in item">
+                        {{key}}
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <script>
+        new Vue({
+            el: '#app',
+            data: {
+                type1: true,
+                type2: true,
+                users: [
+                    {
+                        name: '1张三',
+                        age: 45
+                    },
+                    {
+                        name: 'B小明',
+                        age: 22
+                    },
+                    {
+                        name: '老王',
+                        age: 23
+                    },
+                    {
+                        name: 'A老李',
+                        age: 40
+                    },
+                    {
+                        name: '李雷雷',
+                        age: 10
+                    }
+                ],
+            },
+            methods: {
+                sortName() {
+                    this.type1 = !this.type1
+                    if (this.type1) {
+                        this.users.sort((a, b) => {
+                            return a.name.localeCompare(b.name, 'en')
+                        }) 
+                    } else {
+                        this.users.sort((a, b) => {
+                            if (a.name.localeCompare(b.name, 'en') === -1) {
+                                return 1
+                            } else { 
+                                return -1
+                            }
+                        }) 
+                    }
+                },
+                sortAge() {
+                    this.type2 = !this.type2
+                    if (this.type2) {
+                        this.users.sort(function(a, b) {
+                            if (a.age > b.age) {
+                                return -1
+                            } else {
+                                return 1
+                            }
+                        })
+                    } else {
+                        this.users.sort(function(a, b) {
+                            if (a.age > b.age) {
+                                return 1
+                            } else {
+                                return -1
+                            }
+                        })
+                    }
+                }
+            }
+        })
+    </script>
+</body>
+</html>

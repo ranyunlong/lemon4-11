@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="https://cdn.bootcss.com/vue/2.5.17/vue.js"></script>
+</head>
+<body>
+    <div id="app">
+    </div>
+    <script>
+        // 创建全局组件
+        Vue.component('test', {
+            template: `
+            <div>
+                <h1>{{title}}</h1>
+            </div>
+            `,
+            data() { // 组件的data选项和实例的有区别他 是一个函数返回一个对象
+                return {
+                    title: '组件'
+                }
+            },
+            methods: {
+                run() {
+                    // 组件的方法
+                }
+            }
+        })
+        
+        new Vue({
+            el: '#app',
+            template: `
+                <div class="app">
+                    <test/>
+                </div>
+            `,
+            data: {
+                title: '实例'
+            },
+            methods: {
+                run() {
+                    // 实例的方法
+                }
+            }
+        })
+
+        // 实例 和组建 没有直接的关系 它们是独立的个体
+    </script>
+</body>
+</html>
