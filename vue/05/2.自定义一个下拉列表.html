@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="https://cdn.bootcss.com/vue/2.5.17/vue.js"></script>
+    <style>
+        .select {
+            width: 150px;
+            height: 40px;
+            border: 1px solid #000;
+            line-height: 40px;
+            box-sizing: border-box;
+        }
+
+        .select input {
+            width: 100%;
+            height: 100%;
+            padding: 0;
+            display: block;
+            border: none;
+            outline: none;
+        }
+
+        .select .option {
+            border: 1px solid #000;
+            border-top: 0;
+        }
+        .select .option.selected {
+            background-color: #ccc;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+    </div>
+    <script>
+        Vue.component('Select', {
+            template: `
+            <div class="select">
+                <input v-model="value" @keydown.down="down" @keydown.up="up" @focus="focus" />
+                <div>
+                    <slot />    
+                </div>
+            </div>
+            `,
+            methods: {
+                focus() {
+                    const children = this.$children
+                    children.forEach((child) => {
+                        child.show = true
+                    })
+                },
+                up() {
+                    this.selectIndex--;
+                },
+                down() {
+                    this.selectIndex++;
+                }
+            },
+            watch:{
+                selectIndex(v) {
+                    if (v < 0) this.selectIndex = 0
+                    if (v > this.$children.length -1 ) this.selectIndex = this.$children.length -1
+                    const children = this.$children
+                    children.forEach((child) => {
+                        child.iSelected = false
+                    })
+                    children[this.selectIndex].iSelected = true
+                }
+            },
+            data() {
+                return {
+                    value: '',
+                    selectIndex: -1
+                }
+            },
+        })
+
+        Vue.component('Option', {
+            props: ['value', 'selected'],
+            template: `
+            <div 
+                class="option" 
+                :class="{
+                    selected: iSelected
+                }" 
+                @click="click" 
+                v-if="show">
+                <slot />
+            </div>
+            `,
+            data() {
+                return {
+                    show: false,
+                    iSelected: this.iSelected
+                }
+            },
+            methods: {
+                click() {
+                    this.$parent.$children.forEach((child) => {
+                        child.show = false
+                        child.iSelected = false
+                    })
+                    this.iSelected = true
+                    this.$parent.value = this.$el.innerText
+                }
+            }
+        })
+        new Vue({
+            el: '#app',
+            template: `
+            <Select>
+                <Option :value="item" v-for="item in 10">{{item}}</Option>
+            </Select>
+            `
+        })
+    </script>
+</body>
+</html>

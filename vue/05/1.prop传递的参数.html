@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="https://cdn.bootcss.com/vue/2.5.17/vue.js"></script>
+    <style>
+        .child {
+            background: red;
+            padding: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+    </div>
+    <script>
+        Vue.component('Test', {
+            props: ['title'],
+            template: `<div class="child">
+                <h1>{{iTitle}}</h1>
+                <input v-model="iTitle"/>
+            </div>`,
+            data() {
+                return {
+                    iTitle: this.title
+                }
+            },
+            watch: {
+                title(v) {
+                   this.iTitle = v
+                },
+                iTitle(v, o) {
+                    // this.$emit('update', v, o)
+                    // console.log(this)
+                    this.$parent.title = v
+                }
+            },
+        })
+
+        Vue.component('TestA', {
+            template: `<div>{{iTitle}}</div>`,
+            data() {
+                return {
+                    iTitle: '呵呵'
+                }
+            }
+        })
+
+        new Vue({
+            el: '#app',
+            template: `
+            <div>
+                <div ref="div"></div>
+                <TestA ref="hhe" />
+                <Test @update="up" ref="haha" :title="title" />
+                {{title}}
+                <input @input="input" />
+            </div>
+            `,
+            data() {
+                return {
+                    title: '哈哈'
+                }
+            },
+            methods: {
+                up(arg) {
+                    this.title = arg
+                },
+                input(e) {
+                    const comp = this.$refs['haha']
+                    const comp1 = this.$refs['hhe']
+                    comp.iTitle = e.target.value
+                    comp1.iTitle = e.target.value
+                }
+            }
+        })
+    </script>
+</body>
+</html>
