@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="https://cdn.bootcss.com/vue/2.5.17/vue.js"></script>
+    <style>
+        .swicher {
+            width: 44px;
+            height: 22px;
+            border-radius: 11px;
+            border: 1px solid #f2f2f2;
+            background: #ccc;
+            transition: background .2s linear;
+        }
+        .swicher.on {
+            background: orangered;
+        }
+        .swicher span {
+            display: block;
+            width: 18px;
+            height: 18px;
+            background: #fff;
+            border-radius: 9px;
+            margin: 2px;
+            transition: transform .2s linear;
+        }
+        .swicher.on span{
+            transform: translateX(22px)
+        }
+    </style>
+    <script src="Swicher.js"></script>
+</head>
+<body>
+    <div id="app">
+    </div>
+    <script>
+        new Vue({
+            el: '#app',
+            template: `
+                <div>
+                    {{value}}
+                    <input type="checkbox" v-model="value" />
+                    <Swicher v-model="value" />    
+                </div>
+            `,
+            data() {
+                return {
+                    value: true
+                }
+            },
+        })
+    </script>
+</body>
+</html>

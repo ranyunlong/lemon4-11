@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="animate.css">
+    <script src="https://cdn.bootcss.com/vue/2.5.17/vue.js"></script>
+    <style>
+        .banner {
+            width: 100%;
+            height: 200px;
+            background: #ccc;
+            position: relative;
+        }
+        .banner .item {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+        }
+        .banner .item:nth-child(1) {
+            background: red;
+        }
+        .banner .item:nth-child(2) {
+            background: blue;
+        }
+        .banner .item:nth-child(3) {
+            background: black;
+        }
+
+        /*动画进入前的效果*/
+        .fade-enter,
+        /*动画准备离开后的样式*/
+        .fade-leave-to {
+            opacity: 0
+        }
+
+        /*动画进行中的效果*/
+        .fade-enter-active,
+         /*动画进行中的效果*/
+        .fade-leave-active {
+            transition: opacity 5s
+        }
+        /*动画进入后的效果*/
+        .fade-enter-to,
+        /*动画准备离开的样式*/
+        .fade-leave {
+            opacity: 1;
+        }
+
+        .scale-enter {
+            transform: scale(0,0)
+        }
+
+        .scale-enter-active {
+            transition: transform 2s linear;
+        }
+
+        .scale-enter-to {
+            transform: scale(1,1)
+        }
+
+        .scale-leave-active {
+            transition: transform 5s linear;
+        }
+
+        .scale-leave-to{
+            transform: scale(0,0)
+        }
+
+        .animated1 {
+            animation-duration: 5s;
+        }
+
+    </style>
+</head>
+<body>
+    <div id="app">
+        <transition 
+            enter-active-class="animated1 slideInLeft"
+            leave-active-class="animated1 slideOutRight"
+            >
+            <div class="banner" v-if="show"></div>
+        </transition>
+        <button @click="show=!show">切换</button>
+    </div>
+    <script>
+        new Vue({
+            el: '#app',
+            data() {
+                return {
+                    show: true
+                }
+            },
+        })
+    </script>
+</body>
+</html>

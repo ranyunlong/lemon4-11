@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css">
+    <script src="https://cdn.bootcss.com/vue/2.5.17/vue.js"></script>
+    <script src="Table.js"></script>
+    <script src="Button.js"></script>
+    <script src="Icon.js"></script>
+    <script src="Progress.js"></script>
+    <style>
+        .progress-bar {
+            transition: width 0.3s linear;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+    </div>
+    <script>
+        new Vue({
+            el: '#app',
+            template: `
+            <div class="app">
+                <Table :column="column" :data="data" strip border />   
+                <Button>按钮</Button> 
+                <Button type="primary" small>按钮</Button> 
+                <Button type="danger" long large>按钮</Button> 
+                <Icon name="plus" color="red" :size="100"/>
+                <Icon name="star" color="red" :size="100"/>
+                <Progress :value="20" />
+                <Progress :value="test" />
+
+                <input v-model="test" />
+            </div>
+            `,
+            data() {
+                return {
+                    test: 100,
+                    column: ['id', 'username', 'age'],
+                    data: [
+                        {
+                            id: 1,
+                            username: '老王',
+                            age: 20
+                        }
+                    ]
+                }
+            }
+        })
+    </script>
+</body>
+</html>

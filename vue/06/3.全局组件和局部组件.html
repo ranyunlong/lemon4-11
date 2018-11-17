@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="https://cdn.bootcss.com/vue/2.5.17/vue.js"></script>
+</head>
+<body>
+    <div id="app">
+    </div>
+    <script>
+        const Test = {
+            template: `
+            <div>test</div>
+            `
+        }
+
+        const Box = {
+            template: `
+                <Test />
+            `,
+            components: {
+                Test
+            }
+        }
+
+        new Vue({
+            el: '#app',
+            template: `
+            <Box />
+            `,
+            components: { // 这个选项是用来注册私有组件的
+                Box
+            }
+        })
+    </script>
+</body>
+</html>

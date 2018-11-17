@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="https://cdn.bootcss.com/vue/2.5.17/vue.js"></script>
+    <style>
+        .box {
+            width: 500px;
+            height: 300px;
+            border: 1px solid #000; 
+        }
+        .box header {
+            height: 40px;
+            border-bottom: 1px solid #000;
+            line-height: 40px;
+            padding: 0 10px;
+            display: flex;
+            justify-content: space-between;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+    </div>
+    <script>
+        const Box = {
+            props: {
+                title: {
+                    type: String,
+                    default: '标题'
+                }
+            },
+            data() {
+                return {
+                    obj: {
+                        name: 'zhangsan'
+                    },
+                    value: '100'
+                }
+            },
+            template: `
+            <div class="box">
+                <header>
+                    <slot :value="value" :data="obj" name="header"/> 
+                </header>
+                <main>
+                    <slot/>    
+                </main>
+            </div>
+            `
+        }
+        new Vue({
+            el: '#app',
+            template: `
+                <Box title="这是一个标题">
+                    <template slot-scope="xx" slot="header">
+                        哈哈<button>{{xx.data.name}} {{xx.value}}</button>    
+                    </template>
+                    <h1>xx</h1>
+                </Box>
+            `,
+            created() {
+                console.log(this)
+            },
+            data() {
+                return {
+                    obj: {
+                        name: 'lisi'
+                    }
+                }
+            },
+            components: {
+                Box
+            }
+        })
+    </script>
+</body>
+</html>

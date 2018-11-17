@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="https://cdn.bootcss.com/vue/2.5.17/vue.js"></script>
+    <style>
+        .box {
+            background: red;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+    </div>
+    <script>
+        Vue.component('Box', {
+            props: {
+                value1: String,
+                value2: String
+            },
+            template: `
+            <div class="box">
+                <input v-model="val1" />
+                <input v-model="val2" />
+            </div>
+            `,
+            data() {
+                return {
+                    val1: this.value1,
+                    val2: this.value2
+                }
+            },
+            watch: {
+                val1(v) {
+                    this.$emit('update:value1',v)
+                },
+                val2(v) {
+                    this.$emit('update:value2',v)
+                },
+                value1(v) {
+                    this.val1 = v
+                },
+                value2(v) {
+                    this.val2 = v
+                }
+            }
+        })
+        new Vue({
+            el: '#app',
+            template: `
+               <div>
+                    <Box :value1.sync="value1" :value2.sync="value2" />
+                    <input v-model="value1" />
+                    <input v-model="value2" />
+
+                </div>
+            `,
+            data() {
+                return {
+                    value1: '1',
+                    value2: '2'
+                }
+            },
+        })
+    </script>
+</body>
+</html>
