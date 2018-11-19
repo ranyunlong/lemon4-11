@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <link rel="stylesheet" href="animate.css">
+    <style>
+        .banner {
+            width: 100%;
+            background: #ccc;
+            height: 300px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .banner .item {
+            position: absolute;
+            top: 0;
+            background: red;
+
+        }
+        .banner .item img {
+            width: 100%;
+            display: block;
+        }
+
+        .banner .list {
+            position: absolute;
+            bottom: 10px;
+            width: 100%;
+            height: 10px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .banner .list span {
+            display: inline-block;
+            width: 10px;
+            height: 10px;
+            background: red;
+            border-radius: 50%;
+            margin: 0 5px;
+        }
+
+        .banner .list span.active {
+            background: black;
+        }
+
+        .slide1-enter {
+            transform: translateX(-100%)
+        }
+        .slide1-enter-active {
+            transition: transform 1s linear;
+        }
+        .slide1-enter-to {
+            transform: translateX(0)
+        }
+        .slide1-leave {
+            transform: translateX(0)
+        }
+        .slide1-leave-active {
+            transition: transform 1s linear;
+        }
+        .slide1-leave-to {
+            transform: translateX(100%)
+        }
+
+        .animated1 {
+            animation-duration: 0.8s;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <div class="banner">
+            <!-- transition-group 过渡有v-for 和 v-show 或 v-if的元素 必有一个绑定的唯一key -->
+            <!-- transition 过渡有v-show和v-if的元素 -->
+            <!-- slideInLeft slideOutRight -->
+            <!-- before-enter 准备进入了 false => true  -->
+            <!-- before-leave 准备离开了 true => false -->
+            <!-- enter 开始进入 -->
+            <!-- leave开始离开 -->
+            <!-- after-enter 进入结束 -->
+            <!-- after-leave 离开结束 -->
+
+            <!-- enter-cancelled leave-cancelled  取消当前动画的进程 -->
+            <transition-group
+                :enter-active-class="enterClass"
+                :leave-active-class="leaveClass"
+                @before-enter="isPlaying = true"
+                @after-leave="isPlaying = false"
+                >
+                <div
+                    v-for="(item, index) in imgs"
+                    v-show="imageIndex === index"
+                    :key="index"
+                    class="item">
+                    <img :src="item">
+                </div>
+            </transition-group>
+            <div class="list">
+                <span
+                    :class="{
+                        active: index === imageIndex
+                    }" 
+                    @click="imageIndex = index"
+                    v-for="(item, index) in imgs"></span>
+            </div>
+        </div>
+        {{isPlaying}}
+        <button class="btn" @click="prev">prev</button>
+        <button class="btn"@click="next">next</button>
+    </div>
+    <script>
+        new Vue({
+            el: '#app',
+            watch: {
+                imageIndex(v, o) {
+                    if (v < 0) this.imageIndex = this.imgs.length - 1
+                    if (v > this.imgs.length - 1) this.imageIndex = 0
+                    if (o === 4 && v === 0 ) {
+                        this.enterClass="animated1 slideInRight"
+                        this.leaveClass="animated1 slideOutLeft"
+                        return;
+                    }
+                    if (v === 3 && o === -1) {
+                        this.enterClass="animated1 slideInLeft"
+                        this.leaveClass="animated1 slideOutRight"
+                        return;
+                    }
+                    if (v > o) {
+                        this.enterClass="animated1 slideInRight"
+                        this.leaveClass="animated1 slideOutLeft"
+                    } else if (v < o) {
+                        this.enterClass="animated1 slideInLeft"
+                        this.leaveClass="animated1 slideOutRight"
+                    }
+                }
+            },
+            methods: {
+                prev() {
+                    //  如果isPlaying为true 说明动画还没有播放结束 
+                    if (this.isPlaying) return;
+                    this.imageIndex--
+                    // this.enterClass="animated1 slideInRight"
+                    // this.leaveClass="animated1 slideOutLeft"
+                    // 动画开始播放了 设置播放状态为true
+                    // this.isPlaying = true
+                },
+                next() {
+                    //  如果isPlaying为true 说明动画还没有播放结束 
+                    if (this.isPlaying) return;
+                    this.imageIndex++
+                    // this.enterClass="animated1 slideInLeft"
+                    // this.leaveClass="animated1 slideOutRight"
+                    // 动画开始播放了 设置播放状态为true
+                    // this.isPlaying = true
+                },
+                leaved(text) {
+                    // console.log(`动画已经结束了`)
+                    // this.isPlaying = false
+                }
+            },
+            data() {
+                return {
+                    enterClass: 'animated1 slideInLeft',
+                    leaveClass: 'animated1 slideOutLeft',
+                    imageIndex: 0,
+                    isPlaying: false,
+                    imgs: [
+                        'img/1.jpg',
+                        'img/2.jpg',
+                        'img/3.jpg',
+                        'img/4.jpg'
+                    ]
+                }
+            },
+        })
+    </script>
+</body>
+</html>

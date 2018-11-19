@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        {{title | test | test1 | test2 }}
+    </div>
+    <script>
+        // 过滤器
+        // 1. 全局过滤器 在任意地方都可以使用的
+        // 2. 局部过滤器 只能在当前组件里使用的
+
+
+        // 全局过滤器
+        // Vue.filter(id, callback)
+        // Vue.filter('test', function(value) {
+        //     //value要过滤的原始数据
+        //     // console.log(value)
+        //     // 返回的结果就是过滤后的内容
+        //     return value.replace(/李四/g, '')
+        // })
+        
+        // Vue.filter('test1', function(value) {
+        //     return value.replace(/-/g, '')
+        // })
+
+        // Vue.filter('test2', function(value) {
+        //     return value.toUpperCase()
+        // })
+        const vm = new Vue({
+            el: '#app',
+            data() {
+                return {
+                    title: `张三李四李四李dsfsdfsdfasdf四----李四------  张三----- 张三张三张三张三李四`
+                }
+            },
+            filters: { // 这个选项用于定义局部的过滤器
+                // 对象的key就是过滤器的名称
+                // 对象的value就是过滤器的处理方法
+                // 局部指令只能在当前 组件或实例里使用
+                test(value) {
+                    return value.replace(/李四/g, '')
+                },
+                test1(value) {
+                    return value.replace(/-/g, '')
+                },
+                test2(value) {
+                    return value.toUpperCase()
+                }
+            }
+        })
+    </script>
+</body>
+</html>

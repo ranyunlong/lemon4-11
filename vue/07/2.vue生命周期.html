@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        test
+    </div>
+    <script>
+        // Vue.component('Test', {
+
+        // })
+        const vm = new Vue({
+            el: '#app',
+            beforeCreate() {
+                // 当选项里添加了beforeCreate这个函数
+                // vue运行到开始创建组件时就会来调用改函数
+                // beforeCreate 代表开始创建组件了（组件是还没创建好的）
+                // console.log(this.title)
+                // beforeCreate 组件还没创建好 不能访问里面的成员或方法
+                // 开始ajax 请求 去向后台请求数据 然后把数据线准备好
+                console.log('开始创建')
+            },
+            created() {
+                // 当选项里添加了created这个函数
+                // vue运行到创建好组件时就会来调用改函数
+                // created组件已经被创建好了
+                // console.log('created')
+                // console.log(this.title)
+                // 假设允许 fn()方法 得出的结果 [1, 2, 3, 4] 要将他存入 当前实例的data选项里去
+                // created 就可以干上面的工作
+            
+                // created 这个阶段只是组件的对象被创建了 它的dom 元素还没有开始编译和渲染的
+                console.log('已经创建')
+            },
+            beforeMount() {
+                // 当选项里添加了beforeMount这个函数
+                // vue运行到开始要把组件的template（编译好的）添加到dom时就会来调用该函数
+                // 它能获取到 要挂载的位置的元素
+                // 在这里是组件渲染之前的元素
+                // 在这个只能对挂载之前的元素进行一些 原生的操作
+                // console.log(this.$refs['btn'])
+                console.log('开始挂载')
+            },
+            mounted() {
+                // 当选项里添加了mounted这个函数
+                // vue运行到已经把组件的template（编译好的）添加到dom后 就会来调用该函数
+                // 在这里已经是组件里渲染出来的元素了
+                // 在这个阶段就可以对你组件里的元素进行原生操作了
+                // 也就是说如果你想访问到组件中的某一个元素 必须在这个钩子函数里运行
+                
+                // const btn = this.$refs['btn']
+                // btn.addEventListener('mousemove', function(e) {
+                //     const x = e.clientX 
+                //     const y = e.clientY 
+                //     btn.style.position = 'absolute'
+                //     btn.style.top = x + 'px'
+                //     btn.style.left = y + 'px'
+                // })
+                console.log('已经挂载好了')
+            },
+            beforeUpdate() {
+                // 已改变的数据，和模板有关系的变更才会触发该函数
+                // 通知你，因为数据发生了变化， 将要更新模板啦
+                console.log('更新数据前')
+            },
+            updated() {
+                // 已改变的数据，和模板有关系的变更才会触发该函数
+                // 通知你，因为数据发生了变化,界面已经发生改变啦
+                console.log('更新数据后')
+                // 通过该钩子 知道数据发生了变化 然后可以通过他去改变模板的其他内容
+            },
+            beforeDestroy() {
+                // vue 实例不会运行着个东西
+                console.log('销毁前')
+            },
+            destroyed() {
+                // vue 实例不会运行着个东西
+                console.log('销毁后')
+            },
+            template: `<div>box
+                <button ref="btn">嘻嘻嘻</button>
+                <input v-model="title" />
+                {{data}}
+            </div>`,
+            data() {
+                return {
+                    title: '呵呵',
+                    data: ''
+                }
+            },
+        })
+    </script>
+</body>
+</html>

@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        test
+    </div>
+    <script>
+        Vue.component('Test1', {
+            props: {
+                title: null
+            },
+            template: `<div>
+                name: <input v-model="name" />
+            </div>`,
+            data() {
+                return {
+                    name: ''
+                }
+            },
+        })
+        Vue.component('Test2', {
+            props: {
+                title: null
+            },
+            template: `<div>
+                age: <input v-model="age" />
+            </div>`,
+            data() {
+                return {
+                    age: ''
+                }
+            },
+        })
+        Vue.component('Test3', {
+            props: {
+                title: null
+            },
+            template: `<div>test3</div>`,
+        })
+        Vue.component('Test4', {
+            props: {
+                title: null
+            },
+            template: `<div>test4</div>`,
+        })
+
+        // <component is="Test3" />
+        // component 组件是vue内置的一个组件容器组件 is 是给他传递参数的
+        // 当你传那个组件名称给他它就显示那个组件
+
+        // 动态组件的缓存
+
+        // 使用 keep-alive 组件包裹动态组件就可以缓存动态组件中的内容
+
+        const vm = new Vue({
+            el: '#app',
+            template: `<div>
+                <button @click="is = item" v-for="item in list">{{item}}</button>
+                <keep-alive>
+                    <component :is="is" />
+                </keep-alive>
+            </div>`,
+            data() {
+                return {
+                    title: '呵呵',
+                    data: '',
+                    isShow: true,
+                    list: ['Test1', 'Test2', 'Test3', 'Test4'],
+                    is: 'Test1'
+                }
+            },
+        })
+    </script>
+</body>
+</html>

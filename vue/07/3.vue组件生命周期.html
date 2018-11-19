@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        test
+    </div>
+    <script>
+        Vue.component('Test', {
+            props: {
+                title: null
+            },
+            template: `<div>{{title}}</div>`,
+            beforeCreate() {
+                console.log('beforeCreate')
+            },
+            created() {
+                console.log('created')
+            },
+            beforeMount() {
+                console.log('beforeMount')
+            },
+            mounted() {
+                console.log('mounted')
+            },
+            beforeUpdate() {
+                console.log('beforeUpdate')
+            },
+            updated(){
+                console.log('updated')
+            },
+            beforeDestroy() {
+                console.log('beforeDestroy')
+                // 在组件销毁之前保存组件里的数据
+            },
+            destroyed() {
+                console.log('destroyed')
+                // 在组件销毁之后呢通知 使用组件的人 这个组件销毁了
+            },
+        })
+        const vm = new Vue({
+            el: '#app',
+            template: `<div>
+                <Test v-show="isShow" :title="title" />
+                <input v-model="title" />
+                {{isShow}}
+                <input type="checkbox" v-model="isShow" />
+            </div>`,
+            data() {
+                return {
+                    title: '呵呵',
+                    data: '',
+                    isShow: true
+                }
+            },
+        })
+    </script>
+</body>
+</html>
