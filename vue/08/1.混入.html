@@ -1,0 +1,81 @@
+.<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="https://cdn.bootcss.com/vue/2.5.17/vue.js"></script>
+</head>
+<body>
+    <div id="app">
+    </div>
+    <script>
+        const Test1 = {
+            template: `
+            <div>{{title}} {{test}} test1</div>
+            `,
+            beforeCreate() {
+                console.log('组件1的生命周期beforeCreate')
+            },
+            data() {
+                return {
+                    name: 'test1'
+                }
+            },
+        }
+        const Test2 = {
+            template: `
+            <div @click="run">{{title}} {{test}} test2</div>
+            `,
+            beforeCreate() {
+                console.log('组件2的生命周期beforeCreate')
+            },
+            data() {
+                return {
+                    title: '呵呵',
+                    name: 'test2'
+                }
+            },
+        }
+
+        Vue.mixin({
+            data() {
+                return {
+                    title: '哈哈',
+                    test: 'xxx'
+                }
+            },
+            mounted() {
+                // console.log(this)
+                // 
+                //console.log('混入的生命周期 mounted')
+                console.log(this.name)
+            },
+            methods: {
+                run() {
+                    alert(100)
+                }
+            }
+        })
+        new Vue({
+            el: '#app',
+            template: `
+            <div id="app">
+                <Test1 />
+                <Test2 />
+            </div>
+            `,
+            data() {
+                return {
+                    name: '实例'
+                }
+            },
+            components: {
+                Test2,
+                Test1
+            }
+        })
+    </script>
+</body>
+</html>

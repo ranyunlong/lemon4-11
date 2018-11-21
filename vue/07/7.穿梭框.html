@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="https://cdn.bootcss.com/vue/2.5.17/vue.js"></script>
+    <style>
+        .transfer {
+            width: 700px;
+            height: 120px;
+            display: flex;
+            justify-content: space-between;
+        }
+        .transfer ul {
+            list-style: none;
+        }
+        .transfer .btns {
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            justify-content: center;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <div class="banner">
+
+        </div>
+    </div>
+    <script>
+        const Transfer = {
+            template: `
+            <div class="transfer">
+                <ul class="left">
+                    <input type="checkbox"  v-model="leftAll" />
+                    <li v-for="(item, index) in left">
+                        <input type="checkbox" v-model="item.selected" />
+                        <span>{{item.title}}</span>
+                    </li>
+                </ul>
+                <div class="btns">
+                    <button @click="moveRight">></button>
+                    <button @click="moveLeft"><</button>
+                </div>
+                <ul class="rigth">
+                    <input type="checkbox"  v-model="rightAll" />
+                    <li v-for="(item, index) in right">
+                        <input type="checkbox" v-model="item.selected" />
+                        <span>{{item.title}}</span>
+                    </li>
+                </ul>
+            </div>
+            `,
+            watch: {
+                leftAll(v) {
+                    this.left.forEach(k => k.selected = v)
+                },
+                rightAll(v) {
+                    this.right.forEach(k => k.selected = v)
+                }
+            },
+            data() {
+                return {
+                    leftAll: false,
+                    rightAll:false,
+                    left: [
+                        {
+                            selected: false,
+                            title: '选项1'
+                        },
+                        {
+                            selected: false,
+                            title: '选项2'
+                        },
+                        {
+                            selected: false,
+                            title: '选项3'
+                        },
+                        {
+                            selected: false,
+                            title: '选项4'
+                        },
+                        {
+                            selected: false,
+                            title: '选项5'
+                        }
+                    ],
+                    right: [
+                    {
+                            selected: false,
+                            title: '选项6'
+                        },
+                        {
+                            selected: false,
+                            title: '选项7'
+                        },
+                        {
+                            selected: false,
+                            title: '选项8'
+                        },
+                        {
+                            selected: false,
+                            title: '选项9'
+                        },
+                        {
+                            selected: false,
+                            title: '选项10'
+                        }
+                    ]
+                }
+            },
+            methods: {
+                moveRight() {
+                    // 去左边的数组里看 有哪些被选中了
+                    const data =  JSON.parse(JSON.stringify(this.left.filter(k => k.selected)))
+                    
+                    // 把选中的数据移动到右边
+                    data.forEach(k => {
+                        // 清除掉已选中的选中状态
+                        k.selected = false
+                        this.right.push(k)
+                    })
+                    
+                    // 保留剩下没有被选中的
+                    this.left = this.left.filter(k => !k.selected)
+                },
+                moveLeft() {
+                    // 去左边的数组里看 有哪些被选中了
+                    const data =  JSON.parse(JSON.stringify(this.right.filter(k => k.selected)))
+                    
+                    // 把选中的数据移动到右边
+                    data.forEach(k => {
+                        // 清除掉已选中的选中状态
+                        k.selected = false
+                        this.left.push(k)
+                    })
+                    
+                    // 保留剩下没有被选中的
+                    this.right = this.right.filter(k => !k.selected)
+                }
+            }
+        }
+        new Vue({
+            el: '#app',
+            template: `
+            <div id="app">
+                <Transfer />
+            </div>
+            `,
+            components: {
+                Transfer
+            }
+        })
+    </script>
+</body>
+</html>

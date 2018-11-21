@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="https://cdn.bootcss.com/vue/2.5.17/vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        <div v-event:click.stop.prevent="handleClick">xx</div>
+        <div v-event:click="handleClick">xx</div>
+    </div>
+    <script>
+        Vue.directive('event', {
+            bind(el, binding, vnode, oldVnode) {
+                // 一般binding对象下的arg 只能有一个参数 （参数是在指令后加冒号获取到的）
+                const { arg, value, modifiers } = binding
+                console.log(binding)
+                el.addEventListener(arg, (e) => {
+                    const { stop = false, prevent = false } = modifiers
+                    if (stop) {
+                        e.stopPropagation()
+                    }
+
+                    if (prevent) {
+                        e.preventDefault() 
+                    }
+                    
+                    if (typeof value === 'function') {
+                        value(e)
+                    }
+                    
+                })
+            },
+            inserted() {
+
+            }
+        })
+
+        new Vue({
+            el: '#app',
+            data() {
+                return {
+                    title: '表体'
+                }
+            },
+            methods: {
+                handleClick(e) {
+                    console.log(e)
+                }
+            }
+        })
+    </script>
+</body>
+</html>

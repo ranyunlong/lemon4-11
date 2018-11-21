@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="https://cdn.bootcss.com/vue/2.5.17/vue.js"></script>
+    <style>
+        #app {
+            padding: 30px;
+        }
+        .box {
+            width: 500px;
+            background: #ccc;
+            height: 10px;
+            border-radius: 5px;
+        }
+        .box .value {
+            width: 20%;
+            background: #2d8cf0;
+            height: 10px;
+            position: relative;
+            border-radius: 5px;
+        }
+
+        .box .value .btn {
+            width: 15px;
+            height: 15px;
+            border: 5px solid #2d8cf0;
+            background: #fff;
+            border-radius: 50%;
+            position: absolute;
+            right: -8px;
+            top: -8px;
+            transform: scale(0.7,0.7);
+            cursor: pointer;
+            transition: transform 0.2s linear;
+        }
+
+        .box .value .btn.active{
+            transform: scale(1,1);
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <div ref="box" class="box">
+            <div ref="value" :style="{
+                width: width + 'px'
+                }" class="value">
+                <div class="btn" :class="{active: active}" @mouseout="active=false" @mouseover="active=true" @mousedown.left="mousedown"></div>
+            </div>
+        </div>
+        {{percent}}
+    </div>
+    <script>
+        new Vue({
+            el: '#app',
+            data() {
+                return {
+                    width: 0,
+                    active: false,
+                    percent: 0
+                }
+            },
+            methods: {
+                mousedown(e) {
+                    this.active = true
+                    // 记录鼠标按下的位置
+                    const originX = e.clientX
+                    // 得到元素box的宽度
+                    const box = this.$refs['box'].clientWidth
+                    // 得到元素value的宽度
+                    const value = this.$refs['value'].clientWidth
+                    const handlerMove = (e) => {
+                        this.active = true
+                        const x = e.clientX
+                        this.width = value + (x - originX)
+                        if (this.width > box) {
+                            this.width = box
+                        }
+                        if (this.width < 0) {
+                            this.width = 0
+                        } 
+                        this.percent = Math.ceil((this.width / box) * 100)
+                    }
+                    document.addEventListener('mousemove', handlerMove)
+                    const mouseUp = () => {
+                        this.active = false
+                        document.removeEventListener('mousemove', handlerMove)
+                        document.removeEventListener('mouseup', mouseUp)
+                    }
+                    document.addEventListener('mouseup', mouseUp)
+                }
+            }
+        })
+    </script>
+</body>
+</html>

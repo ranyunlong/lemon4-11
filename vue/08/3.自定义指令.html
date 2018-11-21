@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="https://cdn.bootcss.com/vue/2.5.17/vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        <input v-focus v-on:click="xx" />
+        <div v-focus></div>
+    </div>
+    <script>
+        // const input = document.createElement('input')
+        // input.style.background = 'red'
+        // input.focus()
+        // document.body.appendChild(input)
+        
+        // console.log(input)
+        // 创建一个自定义指令
+        Vue.directive('focus', {
+            bind(el, binding, vnode, oldVnode) {
+                // el 代表的是组件所绑定的元素
+                // console.log('当组件或元素和该指令绑定时触发的函数')
+                // 这里仅仅是把指令绑定到元素上了，实际了还没有被插入到dom
+                // el.focus()
+            },
+            inserted(el, binding, vnode, oldVnode) {
+                console.log('当组件或元素和该指令被插入到dom时触发的函数')
+            
+            },
+            update(el, binding, vnode, oldVnode) {
+
+            },
+            componentUpdated(el, binding, vnode, oldVnode) {
+
+            },
+            unbind(el, binding, vnode, oldVnode) {
+
+            }
+        })
+        new Vue({
+            el: '#app'
+        })
+    </script>
+</body>
+</html>
