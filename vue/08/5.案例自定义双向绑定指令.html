@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="https://cdn.bootcss.com/vue/2.5.17/vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        <input v-sync="value" />
+
+        <br> 
+        原生v-model: {{value}}
+        <input v-model="value" />
+
+        <Test />
+    </div>
+    <script>
+        Vue.component('Test', {
+            template: `
+            <div>
+                    <input v-sync="key" />
+                    
+                    <input v-model="key" />
+            </div>
+            `,
+            data() {
+                return {
+                    key: '100'
+                }
+            },
+        })
+
+
+        Vue.directive('sync', {
+            bind(el, binding, vnode, oldVnode) {
+                // 它在原生和指令绑定的时候运行
+                // 只运行依次
+                el.value = binding.value
+                el.addEventListener('input', function(e) {
+                    // 通过事件得到内部更新的值
+                    const value = e.target.value
+                    // 通知指令的使用者 改变了发生了变化
+                    // console.log(binding)
+                    console.log(vnode.context)
+                    // vnode.context 获取到指令的使用组件的上下文
+                    vnode.context[binding.expression] = value
+                })
+            },
+            inserted(el, binding, vnode, oldVnode) {
+                // 插入到dom 的时候运行
+                console.log(`插入到dom 的时候运行`)
+            },
+            update(el, binding, vnode, oldVnode) {
+                // 当虚拟dom里的数据发生变化时
+                // 当我们去改变虚拟dom里的数据 vue会比较新的虚拟dom和旧的虚拟dom
+                // 就会触发这个函数
+                // console.log(binding.value)
+                el.value = binding.value
+            }
+        })
+
+        new Vue({
+            el: '#app',
+            data() {
+                return {
+                    value: '表体'
+                }
+            }
+        })
+    </script>
+</body>
+</html>

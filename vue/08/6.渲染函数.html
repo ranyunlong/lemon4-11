@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="https://cdn.bootcss.com/vue/2.5.17/vue.js"></script>
+</head>
+<body>
+    <div id="app">
+    </div>
+    <script>
+
+        const Test = {
+            props: {
+                title: String,
+            },
+            template: `
+            <div class="test">
+                {{title}}
+                <div class="a">
+                    <slot name="a" />
+                </div>
+                <div class="b">
+                    <slot name="b" />
+                </div>
+            </div>
+            `
+        }
+
+        new Vue({
+            el: '#app',
+            // 渲染函数
+            // render: (createElement) => {
+            //     // createElement 创建元素
+            //     // createElement('标签或组件名称或组件', '组件或参数需要的数据 可选的 {}', 标签的内容 可选的 可以是字符串和数组)
+            //     return createElement('button', {
+            //         style: {
+            //             background: 'RED'
+            //         },
+            //         on: {
+            //             click() {
+            //                 alert(1)
+            //             }
+            //         }
+            //     } ,'xxx')
+            // }
+            render: (h) => h(Test,{
+                style: {
+
+                },
+                on: {
+
+                },
+                props: {
+                    title: '哈哈'
+                }
+            }, [
+                // 如果需要渲染嵌套组件或元素， 使用数组
+                h('span',{
+                    slot: 'a'
+                }, '嵌套内容1'),
+                h('span',{
+                    slot: 'b'
+                },'嵌套内容2')
+            ])
+        })
+    </script>
+</body>
+</html>
