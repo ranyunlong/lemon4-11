@@ -10,7 +10,18 @@ module.exports = {
     // Paths
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
-    proxyTable: {},
+    proxyTable: {
+      // 只要是不和路由发生冲突的地址，都可以用来做代理
+      '/proxyapi': {
+        target: 'http://console.ranyunlong.com:8080',
+        pathRewrite: {
+          '^/proxyapi': '/renren-fast'
+        }
+
+        // /renren-fast/captcha.jpg?uuid=12321
+        // /proxyapi/captcha.jpg?uuid=12321
+      }
+    },
 
     // Various Dev Server settings
     host: 'localhost', // can be overwritten by process.env.HOST
