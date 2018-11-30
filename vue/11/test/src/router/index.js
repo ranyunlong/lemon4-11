@@ -9,14 +9,20 @@ export default new Router({
   routes: [
     {
       path: '/',
-      redirect: '/login'
+      redirect: '/admin'
     },
     {
       path: '/login',
-      component: Login
+      component: Login,
+      meta: {
+        auth_not_login: true, // 验证未登陆 (必须没有登陆才能访问)
+      }
     },
     {
       path: '/admin',
+      meta: { // 路由的元信息, 这里的属性都是自定义的
+        auth_login: true, // 表示验证已登录 （必须登陆才能访问）
+      },
       component: Admin
     }
   ]

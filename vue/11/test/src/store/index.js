@@ -6,6 +6,8 @@
 // 使用vuex 第二步导入vuex
 import Vue from 'vue'
 import Vuex from 'vuex'
+import axios from 'axios'
+import router from '../router'
 
 // 第三步 注册vuex
 Vue.use(Vuex)
@@ -37,19 +39,66 @@ export default new Vuex.Store({
     mutations: {
         // mutaion成员只能接受2个参数， 第一个参数是原始数据， 
         // 第二个是使用这个 修改器传递的参数
-        // setToken(state, token) {
-        //     state.token = token
-        // },
+        setToken(state, token) {
+            state.token = token
+            localStorage.setItem('token', token)
+        },
         setUser(state, user) {
             state.user = user
         },
-        login(state, data) {
-            const { user, token } = data
-            state.user = user
-            state.token = token
-            localStorage.setItem('token', token)
+        logout(state) {
+            // 在vuex存储里清除 token
+            // 在本地存储里清除 token
+            state.token = ''
+            state.user = {}
+            localStorage.removeItem('token')
+            // 退出之后，去到登录页面
+            router.push('/login')
         }
-    }, 
+    },
+    actions: {
+        // 获取用户信息
+        GET_USER_INFO({ commit, state }) {
+            axios({
+                url: '/proxyapi/sys/user/info',
+                headers: {
+                    token: state.token
+                }
+            }).then(({data}) => {
+                const { code, user } = data
+                if (code === 0) {
+                    commit('setUser', user)
+                } else {
+                    router.push('/login')
+                }
+            })
+        },
+        // 登录
+        LOGIN(store, data) {
+            // res axios 请求的结果
+            const res = axios({
+                method: 'post',
+                url: '/proxyapi/sys/login',
+                headers: {
+                    'ContentType': 'application/json'
+                },
+                data
+            })
+
+            // 在这里先拦截结果
+            res.then(({data}) => {
+                const { code, token } = data
+                // code 0 登录成功了
+                if (code === 0) {
+                    // store 的commit方法可以用来触发 mutation
+                    store.commit('setToken', token)
+                }
+            })
+
+            // 交给页面获取结果
+            return res
+        }
+    }
 })
 
 // 第五步 在实例中添加store

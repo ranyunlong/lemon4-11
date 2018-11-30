@@ -27,7 +27,7 @@
 <script>
     import uuid from 'uuid'
     import axios from 'axios'
-    import { mapMutations } from 'vuex'
+    import { mapActions } from 'vuex'
     export default {
         data() {
             return {
@@ -43,52 +43,37 @@
         },
         methods: {
             // 重新生成uuid
-            ...mapMutations([
-                'login'
+            ...mapActions([
+                'LOGIN'
             ]),
+            
             reUuid() {
                 this.uuid = uuid()
             },
             // 处理登录
             handleLogin() {
-                // console.log(JSON.stringify(this.form, null, 4))
                 this.loading = true
-                axios({
-                    method: 'post',
-                    url: '/proxyapi/sys/login',
-                    data: this.form,
-                    // responseType: 'json', // 告诉后台我需要一个json结果
-                    // responseEncoding: 'utf8', // 告诉后台我需要的结果的编码格式
-                    headers: {
-                        'Content-Type': 'application/json' //告诉后台请求的数据类型
-                    }
-                }).then(({data}) => { // 接收结果
+                this.LOGIN(this.form).then(({data}) => {
                     this.loading = false
-                    const { msg, code, token} = data
+                    const { code, msg } = data
                     if (code === 0) {
                         this.$Notice.success({
                             title: '成功',
-                            desc: `登录成功啦`
+                            desc: `已登录`
                         })
                         this.$router.replace('/admin')
-                        this.login({
-                            user: JSON.parse(JSON.stringify(this.form)),
-                            token
-                        })
-                        // this.$store.commit('login', {
-                        //     user: JSON.parse(JSON.stringify(this.form)),
-                        //     token
-                        // })
                     } else {
+                        // iview里的全局提示方法
                         this.$Notice.error({
                             title: '错误',
                             desc: msg
                         })
                         this.uuid = uuid()
                     }
-                }).catch(err => { // 捕获错误
-                    console.log(err)
                 })
+                // console.log(this.form)
+                // 把表单数据 提交到vuex 里的 actions 里去请求
+
             }
         },
         created() {
