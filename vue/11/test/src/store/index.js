@@ -8,6 +8,7 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import axios from 'axios'
 import router from '../router'
+import { http } from '../utils'
 
 // 第三步 注册vuex
 Vue.use(Vuex)
@@ -20,6 +21,7 @@ export default new Vuex.Store({
     state: { // 原始数据  
         user: {}, // 保存用户的数据
         token: token, // 保存已登录的凭证
+        menu: []
     }, 
     // 可以有很多个查询器
     // 每一个查询器 做不同的工作
@@ -32,6 +34,9 @@ export default new Vuex.Store({
         },
         user(state) {
             return state.user
+        },
+        menu(state) {
+            return state.menu
         }
     }, 
     // 修改器 可以有很多个修改器
@@ -54,17 +59,15 @@ export default new Vuex.Store({
             localStorage.removeItem('token')
             // 退出之后，去到登录页面
             router.push('/login')
+        },
+        setMenu(state, menu) {
+            state.menu = menu
         }
     },
     actions: {
         // 获取用户信息
-        GET_USER_INFO({ commit, state }) {
-            axios({
-                url: '/proxyapi/sys/user/info',
-                headers: {
-                    token: state.token
-                }
-            }).then(({data}) => {
+        GET_USER_INFO({ commit }) {
+            http.get('/proxyapi/sys/user/info').then(({data}) => {
                 const { code, user } = data
                 if (code === 0) {
                     commit('setUser', user)
@@ -76,14 +79,7 @@ export default new Vuex.Store({
         // 登录
         LOGIN(store, data) {
             // res axios 请求的结果
-            const res = axios({
-                method: 'post',
-                url: '/proxyapi/sys/login',
-                headers: {
-                    'ContentType': 'application/json'
-                },
-                data
-            })
+            const res = http.post('/proxyapi/sys/login', data)
 
             // 在这里先拦截结果
             res.then(({data}) => {
@@ -96,6 +92,27 @@ export default new Vuex.Store({
             })
 
             // 交给页面获取结果
+            return res
+        },
+        // 获取系统菜单
+        GET_SYS_MENU_LIST({commit}) {
+            http.get('/proxyapi/sys/menu/list').then(({data}) => {
+                commit('setMenu', data)
+            })
+        },
+        // 获取系统管理员
+        GET_SYS_USER_LIST({commit}, params = {}) {
+            const { page = 1, limit = 10, sidx = 'userId', order = "desc", username ='' } = params
+            const res = http.get('/proxyapi/sys/user/list', {
+                params: {
+                    page,
+                    limit,
+                    sidx,
+                    order,
+                    username
+                }
+            })
+
             return res
         }
     }
