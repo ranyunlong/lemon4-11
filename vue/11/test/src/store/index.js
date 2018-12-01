@@ -9,6 +9,7 @@ import Vuex from 'vuex'
 import axios from 'axios'
 import router from '../router'
 import { http } from '../utils'
+import users from './moduels/users'
 
 // 第三步 注册vuex
 Vue.use(Vuex)
@@ -21,7 +22,8 @@ export default new Vuex.Store({
     state: { // 原始数据  
         user: {}, // 保存用户的数据
         token: token, // 保存已登录的凭证
-        menu: []
+        menu: [],
+        test: 1000
     }, 
     // 可以有很多个查询器
     // 每一个查询器 做不同的工作
@@ -114,7 +116,23 @@ export default new Vuex.Store({
             })
 
             return res
+        },
+        // 新增管理员
+        SYS_USER_SAVE({commit}, data = {}) {
+            return http.post('/proxyapi/sys/user/save', data)
+        },
+        // 更新管理员
+        SYS_USER_UPDATE({commit}, data = {}) {
+            return http.post('/proxyapi/sys/user/update', data)
+        },
+        // 删除管理员
+        SYS_USER_DELETE({commit}, ids = []) {
+           return http.post('/proxyapi/sys/user/delete', ids)
         }
+    },
+    modules: {
+        // 添加好了user子仓库模块
+        users
     }
 })
 

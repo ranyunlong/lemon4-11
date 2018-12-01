@@ -21,15 +21,12 @@ http.interceptors.request.use((config) => {
             t: new Date().getTime(),
             token
         }
-        //
     }
 
     if (config.method === 'post') {
-        config.data = {
-            ...config.data,
-            t: new Date().getTime(),
-            token
-        }
+        config.data = config.data || {}
+        config.data.t = new Date().getTime();
+        config.data.token = token 
         // 如果是表单数据提交时 把对象处理成 查询字符串格式
         if (config.headers['Content-Type'] === 'application/x-www-form-urlencoded') {
             config.data = Qs.stringify(config.data)

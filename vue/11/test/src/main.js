@@ -5,7 +5,8 @@ import App from './App'
 import router from './router'
 import store from './store'
 import iview from 'iview'
-import 'iview/dist/styles/iview.css'
+// 使用了cdn iview的css了
+// import 'iview/dist/styles/iview.css'
 
 // 使用路由守卫拦截路由
 router.beforeEach((to, from, next) => {

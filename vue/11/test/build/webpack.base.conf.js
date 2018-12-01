@@ -29,6 +29,14 @@ module.exports = {
       '@': resolve('src'),
     }
   },
+  // 忽略要打包的模块
+  externals: {
+    // iview模块名称: 模块的全局变量
+    vue: 'Vue',
+    iview: 'iview',
+    vuex: 'Vuex',
+    'vue-router': 'VueRouter'
+  },
   module: {
     rules: [
       {
